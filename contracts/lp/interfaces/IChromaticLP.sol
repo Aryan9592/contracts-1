@@ -4,6 +4,22 @@ pragma solidity >=0.8.0 <0.9.0;
 import {ChromaticLPReceipt} from "@chromatic-protocol/contracts/lp/libraries/ChromaticLPReceipt.sol";
 
 interface IChromaticLP {
+    event AddLiquidity(
+        uint256 indexed receiptId,
+        address indexed recipient,
+        uint256 oracleVersion,
+        uint256 amount
+    );
+
+    event ClaimLiquidity(uint256 indexed receiptId, uint256 lpTokenAmount);
+
+    event RemoveLiquidity(
+        uint256 indexed receiptId,
+        address indexed recipient,
+        uint256 oracleVersion,
+        uint256 lpTokenAmount
+    );
+
     function markets() external view returns (address[] memory);
 
     function settlementToken() external view returns (address);
@@ -15,7 +31,7 @@ interface IChromaticLP {
         address recipient
     ) external returns (ChromaticLPReceipt memory);
 
-    function claminLiquidity(uint256 receiptId) external;
+    function claimLiquidity(uint256 receiptId) external;
 
     function removeLiquidity(
         uint256 lpTokenAmount,

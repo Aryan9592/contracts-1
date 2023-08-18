@@ -29,8 +29,12 @@ contract ChromaticLPRegistry {
 
     function register(IChromaticLP lp) external onlyDao {
         address[] memory markets = lp.markets();
-        for (uint256 i = 0; i < markets.length; i++) {
+        for (uint256 i = 0; i < markets.length; ) {
             _lpsByMarket[markets[i]].add(address(lp));
+
+            unchecked {
+                i++;
+            }
         }
 
         _lpsBySettlementToken[lp.settlementToken()].add(address(lp));
@@ -40,8 +44,12 @@ contract ChromaticLPRegistry {
 
     function unregister(IChromaticLP lp) external onlyDao {
         address[] memory markets = lp.markets();
-        for (uint256 i = 0; i < markets.length; i++) {
+        for (uint256 i = 0; i < markets.length; ) {
             _lpsByMarket[markets[i]].remove(address(lp));
+
+            unchecked {
+                i++;
+            }
         }
 
         _lpsBySettlementToken[lp.settlementToken()].remove(address(lp));
